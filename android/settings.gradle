@@ -1,0 +1,8 @@
+import javax.naming.Binding
+
+rootProject.name = 'mobile_operator_info'
+
+include ':mobile_operator_info'
+
+setBinding(new Binding([gradle: this]))
+evaluate(new File(settingsDir.parentFile, 'flutter_settings.gradle'))
