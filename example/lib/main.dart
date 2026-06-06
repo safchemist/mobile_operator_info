@@ -35,9 +35,7 @@ class _MyAppState extends State<MyApp> {
 
     if (!mounted) return;
 
-    setState(() {
-      _operatorInfo = info.toString();
-    });
+    setState(() => _operatorInfo = info.toString());
   }
 
   @override
