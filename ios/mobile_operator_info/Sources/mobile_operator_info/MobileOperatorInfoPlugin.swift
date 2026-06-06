@@ -21,30 +21,14 @@ public class MobileOperatorInfoPlugin: NSObject, FlutterPlugin {
   private func getMobileOperatorInfo() -> [String: String?] {
       let networkInfo = CTTelephonyNetworkInfo()
 
-      if #available(iOS 12.0, *) {
-          guard let providers = networkInfo.serviceSubscriberCellularProviders else {
-              return [:]
-          }
-
-          if let firstProvider = providers.values.first {
-              return [
-                  "networkOperatorName": firstProvider.carrierName,
-                  "mobileCountryCode": firstProvider.mobileCountryCode,
-                  "mobileNetworkCode": firstProvider.mobileNetworkCode
-              ]
-          } else {
-              return [:]
-          }
-      } else {
-          if let carrier = networkInfo.subscriberCellularProvider {
-              return [
-                  "networkOperatorName": carrier.carrierName,
-                  "mobileCountryCode": carrier.mobileCountryCode,
-                  "mobileNetworkCode": carrier.mobileNetworkCode
-              ]
-          } else {
-              return [:]
-          }
+      guard let firstProvider = networkInfo.serviceSubscriberCellularProviders?.values.first else {
+          return [:]
       }
+
+      return [
+          "networkOperatorName": firstProvider.carrierName,
+          "mobileCountryCode": firstProvider.mobileCountryCode,
+          "mobileNetworkCode": firstProvider.mobileNetworkCode
+      ]
   }
 }

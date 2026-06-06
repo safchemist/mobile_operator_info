@@ -1,11 +1,11 @@
 name: mobile_operator_info
 description: "A Flutter plugin for retrieving mobile operator information such as operator name, mobile country code (MCC), and mobile network code (MNC)."
-version: 1.0.1
+version: 2.0.0
 homepage: https://github.com/safchemist/mobile_operator_info
 
 environment:
   sdk: ^3.6.0
-  flutter: '>=3.3.0'
+  flutter: '>=3.44.0'
 
 dependencies:
   flutter:

@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "mobile_operator_info",
     platforms: [
-        .iOS("12.0")
+        .iOS("13.0")
     ],
     products: [
         // If the plugin name contains "_", replace with "-" for the library name.
