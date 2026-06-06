@@ -4,31 +4,20 @@ A Flutter plugin to fetch mobile operator information, such as the operator name
 
 ## Features
 
-- **iOS**: Limited functionality due to deprecated CoreTelephony APIs. Returns placeholder data on iOS 16.4 and later.
 - **Android**: Full functionality. No special permissions are required.
+- **iOS**: Not supported — `getMobileOperatorInfo()` returns empty data. Apple deprecated the relevant CoreTelephony APIs with no replacement.
 
 ## Requirements
 
-Since version 2.0.0, the iOS implementation is distributed exclusively as a
-Swift Package Manager package — the CocoaPods podspec has been removed.
-
-- **Flutter**: 3.44.0 or later, with Swift Package Manager enabled (the default).
-  Projects that have disabled it (`flutter config --no-enable-swift-package-manager`)
-  or integrate Flutter via add-to-app CocoaPods are not supported.
-- **iOS**: 13.0 or later.
-
-If you need CocoaPods support, stay on version 1.x.
+- **Flutter**: 3.44.0 or later.
 
 ## Platform Support
 
 ### iOS
 
-This plugin uses the [CoreTelephony framework](https://developer.apple.com/documentation/coretelephony/ctcarrier), whose carrier-identity APIs (`CTCarrier`) Apple deprecated in iOS 16.0. Since iOS 16.4, these APIs no longer return real carrier information — only static placeholder values — and Apple provides no replacement API.
+Since version 3.0.0 this plugin has no native iOS implementation. Apple deprecated the carrier-identity APIs of the [CoreTelephony framework](https://developer.apple.com/documentation/coretelephony/ctcarrier) (`CTCarrier`) in iOS 16.0, and since iOS 16.4 they return only static placeholder values (`--` / `65535`) with no replacement API. Because real operator information cannot be obtained on modern iOS, the plugin is a no-op there: `getMobileOperatorInfo()` completes successfully and returns a `MobileOperatorInfoData` with all fields set to `null`.
 
-#### Known Limitations:
-- On devices running iOS 16.4 or later, the carrier name, MCC, and MNC are always placeholder values (`--` / `65535`), regardless of the actual SIM or carrier.
-- On older iOS versions, real values may still be returned, but this cannot be relied upon.
-- On dual-SIM devices, the plugin reports the first available provider; the order is not guaranteed.
+It is safe to call the plugin on iOS — no exception is thrown and no native code is involved.
 
 For more details, see the Apple documentation: [CoreTelephony - CTCarrier](https://developer.apple.com/documentation/coretelephony/ctcarrier).
 
@@ -47,7 +36,7 @@ To use this plugin, add `mobile_operator_info` as a dependency in your `pubspec.
 
 ```yaml
 dependencies:
-  mobile_operator_info: ^2.0.0
+  mobile_operator_info: ^3.0.0
 ```
 
 Then run the following command to fetch the dependency:
@@ -74,11 +63,11 @@ void main() async {
 
 ## Example Output
 
-### iOS 16.4+ (Returns Placeholder Data)
+### iOS (No-op, Returns Empty Data)
 ```
-Operator Name: --
-Mobile Country Code (MCC): 65535
-Mobile Network Code (MNC): 65535
+Operator Name: null
+Mobile Country Code (MCC): null
+Mobile Network Code (MNC): null
 ```
 
 ### Android (Returns Real Data)
@@ -90,7 +79,6 @@ Mobile Network Code (MNC): 260
 
 ## Known Issues
 
-- On iOS 16.4 and later, the returned data is placeholder-only due to Apple's deprecation of the `CTCarrier` APIs in `CoreTelephony`; there is no replacement API for carrier identity.
 - On Android, the plugin works as expected, but edge cases for certain devices or configurations may arise.
 
 ## License
