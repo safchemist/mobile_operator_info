@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile_operator_info/src/models/mobile_operator_info_data.dart';
 
@@ -5,6 +6,13 @@ class MobileOperatorInfo {
   static const MethodChannel _channel = MethodChannel('mobile_operator_info');
 
   Future<MobileOperatorInfoData> getMobileOperatorInfo() async {
+    // Mobile operator information is only available on Android. On iOS the
+    // CoreTelephony CTCarrier APIs are deprecated and return placeholder
+    // values since iOS 16.4, so there is no native implementation.
+    if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
+      return MobileOperatorInfoData();
+    }
+
     try {
       final result = await _channel.invokeMethod('getMobileOperatorInfo');
 

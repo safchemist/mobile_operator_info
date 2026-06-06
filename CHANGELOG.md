@@ -1,3 +1,11 @@
+## [3.0.0] - 2026-06-06
+### Breaking
+- iOS: removed the native iOS implementation entirely. Apple deprecated the
+  CoreTelephony `CTCarrier` APIs in iOS 16.0 and they return only placeholder
+  values since iOS 16.4, with no replacement API. The plugin is now a no-op on
+  iOS (and any non-Android platform): `getMobileOperatorInfo()` returns an
+  empty `MobileOperatorInfoData` with all fields `null`. Android is unaffected.
+
 ## [2.0.0] - 2026-06-06
 ### Breaking
 - iOS: migrated from CocoaPods to Swift Package Manager. The podspec has been
